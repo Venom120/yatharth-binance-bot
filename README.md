@@ -23,11 +23,11 @@ pip install -r requirements.txt
 
 ### 2. Generate API Credentials
 
-1. Log into testnet dashboard
-2. Navigate to API Management
-3. Click "Create API Key"
+1. Log into testnet dashboard at https://testnet.binancefuture.com
+2. Navigate to **API Key** section (usually in top-right menu)
+3. Click **"Generate HMAC_SHA256 Key"** or similar button
 4. Save your **API Key** and **API Secret** securely
-5. Enable **Futures Trading** permissions
+5. **Note**: Testnet API keys have full permissions by default - no need to enable specific permissions
 
 ### 3. Get Testnet Funds
 
@@ -39,7 +39,7 @@ pip install -r requirements.txt
 
 Run the script and enter your credentials when prompted:
 ```bash
-python trading_bot.py
+python main.py
 ```
 
 ## 📊 Features Implemented

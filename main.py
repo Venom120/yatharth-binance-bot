@@ -36,24 +36,69 @@ class BinanceFuturesBot:
             api_secret: Binance API secret
             testnet: Use testnet (default: True)
         """
+        # Initialize client with timestamp offset correction
         self.client = Client(api_key, api_secret, testnet=testnet)
         
+        # Set testnet URL
         if testnet:
             self.client.API_URL = 'https://testnet.binancefuture.com'
             logger.info("Connected to Binance Futures Testnet")
         else:
             logger.warning("Connected to Binance LIVE environment")
         
+        # Synchronize timestamp with Binance servers
+        self._sync_time()
+        
+        # Validate connection
         self._validate_connection()
+    
+    def _sync_time(self):
+        """Synchronize local time with Binance server time"""
+        try:
+            # Get server time
+            server_time = self.client.get_server_time()
+            local_time = int(time.time() * 1000)
+            time_offset = server_time['serverTime'] - local_time
+            
+            # Set timestamp offset
+            self.client.timestamp_offset = time_offset
+            
+            logger.info(f"Time synchronized. Offset: {time_offset}ms")
+        except Exception as e:
+            logger.warning(f"Could not sync time: {e}. Continuing anyway...")
     
     def _validate_connection(self):
         """Validate API connection and permissions"""
         try:
-            self.client.futures_account()
-            logger.info("API connection validated successfully")
+            # Test connection with futures account endpoint
+            account = self.client.futures_account()
+            logger.info("✓ API connection validated successfully")
+            logger.info(f"✓ Account permissions verified")
+            
+            # Display account info
+            total_balance = sum(float(asset['walletBalance']) for asset in account['assets'])
+            logger.info(f"✓ Total wallet balance: {total_balance:.2f} USDT")
+            
         except BinanceAPIException as e:
-            logger.error(f"API connection failed: {e}")
-            raise
+            if e.code == -1021:
+                logger.error("❌ Timestamp error. Attempting to resync...")
+                self._sync_time()
+                # Retry validation
+                try:
+                    self.client.futures_account()
+                    logger.info("✓ Connection validated after time sync")
+                except Exception as retry_error:
+                    logger.error(f"❌ Still failing after time sync: {retry_error}")
+                    raise
+            elif e.code == -2015:
+                logger.error("❌ Invalid API key or permissions. Please check:")
+                logger.error("   1. API key is correct")
+                logger.error("   2. API secret is correct")
+                logger.error("   3. API key is not expired")
+                raise ValueError("Invalid API credentials")
+            else:
+                logger.error(f"❌ API connection failed: {e}")
+                raise
     
     def _log_request(self, action: str, params: Dict):
         """Log API request details"""
@@ -341,6 +386,9 @@ def main():
     print("\n" + "="*60)
     print("   BINANCE FUTURES TRADING BOT - SETUP")
     print("="*60)
+    print("\n⚠️  IMPORTANT: System time synchronization")
+    print("If you get timestamp errors, your system clock may be off.")
+    print("The bot will attempt to auto-sync with Binance servers.\n")
     
     # Get API credentials
     if os.getenv("BINANCE_API_KEY"):
@@ -359,6 +407,7 @@ def main():
     
     try:
         # Initialize bot
+        print("\n⏳ Initializing bot and syncing time...")
         bot = BinanceFuturesBot(api_key, api_secret, testnet=True)
         print("✓ Bot initialized successfully!")
         
@@ -494,9 +543,19 @@ def main():
             except Exception as e:
                 print(f"\n❌ Error: {e}")
     
+    except ValueError as e:
+        print(f"\n❌ {e}")
+        print("\n📝 Please verify:")
+        print("   1. You're using testnet.binancefuture.com API keys")
+        print("   2. API key and secret are correct")
+        print("   3. Keys are not expired")
     except Exception as e:
         print(f"\n❌ Failed to initialize bot: {e}")
         logger.error(f"Bot initialization failed: {e}")
+        print("\n🔧 Troubleshooting steps:")
+        print("   1. Check your system time is correct")
+        print("   2. Verify API credentials")
+        print("   3. Check internet connection")
 
 
 if __name__ == "__main__":
