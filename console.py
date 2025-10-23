@@ -117,7 +117,7 @@ class BinanceFuturesBot:
         try:
             self._log_request("GET_ACCOUNT", {})
             account = self.client.futures_account()
-            self._log_response("GET_ACCOUNT", account)
+            # self._log_response("GET_ACCOUNT", account)
             return account
         except BinanceAPIException as e:
             self._log_error("GET_ACCOUNT", e)
@@ -128,10 +128,10 @@ class BinanceFuturesBot:
         try:
             account = self.get_account_info()
             balances = [asset for asset in account['assets'] if float(asset['walletBalance']) > 0]
-            
+
             # Display account info
             total_balance = sum(float(asset['walletBalance']) for asset in account['assets'])
-            logger.info(f"✓ Total wallet balance: {total_balance:.2f} USDT")
+            logger.info(f"[OK] Total wallet balance: {total_balance:.2f} USDT")
             return balances
         except Exception as e:
             self._log_error("GET_BALANCE", e)
@@ -147,6 +147,18 @@ class BinanceFuturesBot:
             raise ValueError(f"Symbol {symbol} not found")
         except Exception as e:
             self._log_error("GET_SYMBOL_INFO", e)
+            raise
+
+    def get_all_futures_symbols(self) -> List[str]:
+        """Get all available futures symbols"""
+        try:
+            exchange_info = self.client.futures_exchange_info()
+            # Filter for only symbols that are currently trading
+            symbols = [s['symbol'] for s in exchange_info['symbols'] if s['status'] == 'TRADING']
+            logger.info(f"Loaded {len(symbols)} trading symbols")
+            return sorted(symbols)
+        except Exception as e:
+            self._log_error("GET_ALL_SYMBOLS", e)
             raise
     
     def get_current_price(self, symbol: str) -> float:
