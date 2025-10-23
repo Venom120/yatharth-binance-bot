@@ -1,0 +1,3 @@
+2025-10-23 11:14:11,518 - __main__ - INFO - Connected to Binance Futures Testnet
+2025-10-23 11:14:16,604 - __main__ - ERROR - API connection failed: APIError(code=-1021): Timestamp for this request is outside of the recvWindow.
+2025-10-23 11:14:16,604 - __main__ - ERROR - Bot initialization failed: APIError(code=-1021): Timestamp for this request is outside of the recvWindow.
