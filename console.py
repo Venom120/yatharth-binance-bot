@@ -14,11 +14,11 @@ dotenv.load_dotenv()
 
 # Configure logging
 logging.basicConfig(
-    level=logging.ERROR,
+    level=logging.DEBUG,  # Set to DEBUG to capture all messages
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler('trading_bot.log'),
-        logging.StreamHandler()
+        #logging.StreamHandler() # Remove StreamHandler to prevent INFO from showing in console
     ]
 )
 logger = logging.getLogger(__name__)
@@ -128,9 +128,10 @@ class BinanceFuturesBot:
         try:
             account = self.get_account_info()
             balances = [asset for asset in account['assets'] if float(asset['walletBalance']) > 0]
+            
             # Display account info
             total_balance = sum(float(asset['walletBalance']) for asset in account['assets'])
-            print(f"\n[$] Total wallet balance: {total_balance:.2f} USDT", end="")
+            logger.info(f"✓ Total wallet balance: {total_balance:.2f} USDT")
             return balances
         except Exception as e:
             self._log_error("GET_BALANCE", e)
