@@ -24,7 +24,10 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Building the Linux executable (this may take a moment)..."
-pyinstaller --onefile --name "BinanceBot" main.py
+pyinstaller --onefile --name "BinanceBot" \
+    --add-data ".venv/lib/python*/site-packages/dateparser/data:dateparser/data" \
+    --add-data ".venv/lib/python*/site-packages/customtkinter:customtkinter" \
+    main.py
 
 if [ $? -ne 0 ]; then
     echo "PyInstaller failed! See output above for errors."
