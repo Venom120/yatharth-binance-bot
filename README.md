@@ -7,6 +7,8 @@
 python-binance==1.0.19
 requests>=2.31.0
 customtkinter
+pyinstaller
+dotenv
 ```
 
 Save as `req.txt` and install with:
@@ -19,7 +21,7 @@ pip install -r req.txt
 ### 1. Register for Binance Futures Testnet
 
 1.  Visit: https://testnet.binancefuture.com
-2.  Click "Register" or login with GitHub
+2.  Click "Register" or login with Google
 3.  Complete registration process
 
 ### 2. Generate API Credentials
