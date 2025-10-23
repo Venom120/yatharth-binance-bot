@@ -6,6 +6,7 @@
 ```txt
 python-binance==1.0.19
 requests>=2.31.0
+customtkinter
 ```
 
 Save as `req.txt` and install with:

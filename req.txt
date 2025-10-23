@@ -1,4 +1,5 @@
 python-binance==1.0.19
 requests>=2.31.0
 dotenv
-customtkinterv
+customtkinter
+pyinstaller
