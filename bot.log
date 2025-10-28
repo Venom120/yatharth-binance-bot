@@ -120,3 +120,34 @@
 2025-10-28 14:48:48,106 - console - INFO - Open orders: 0
 2025-10-28 14:48:48,310 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v2/positionRisk?timestamp=1761643128029&signature=26f146b53f6bd9adf94277884556272faf9a20019435cea26d009130eb4d29d9 HTTP/1.1" 200 None
 2025-10-28 14:48:48,312 - console - INFO - Active positions: 0
+2025-10-28 15:15:01,589 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): testnet.binance.vision:443
+2025-10-28 15:15:01,884 - urllib3.connectionpool - DEBUG - https://testnet.binance.vision:443 "GET /api/v3/ping HTTP/1.1" 200 2
+2025-10-28 15:15:01,885 - console - INFO - Connected to Binance Futures Testnet
+2025-10-28 15:15:02,046 - urllib3.connectionpool - DEBUG - https://testnet.binance.vision:443 "GET /api/v3/time HTTP/1.1" 200 28
+2025-10-28 15:15:02,047 - console - INFO - Time synchronized. Offset: -74ms
+2025-10-28 15:15:02,048 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): testnet.binancefuture.com:443
+2025-10-28 15:15:02,612 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v2/account?timestamp=1761644701973&signature=9b96d1c740d2bbc51e579e01ae32f5cf57cdddee128d66715e37dd875bcb3430 HTTP/1.1" 200 None
+2025-10-28 15:15:02,615 - console - INFO - [OK] API connection validated successfully
+2025-10-28 15:15:02,615 - console - INFO - [OK] Account permissions verified
+2025-10-28 15:15:02,615 - console - INFO - [OK] Total wallet balance: 10002.99 USDT
+2025-10-28 15:15:02,947 - console - INFO - REQUEST - GET_ACCOUNT: {}
+2025-10-28 15:15:03,125 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v2/account?timestamp=1761644702873&signature=191595df7e116898a4f505aba4e8690736e8c94e8d7041aa23f019ca8cfbeebe HTTP/1.1" 200 None
+2025-10-28 15:15:03,129 - console - INFO - [OK] Total wallet balance: 10002.99 USDT
+2025-10-28 15:15:03,534 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v1/exchangeInfo HTTP/1.1" 200 None
+2025-10-28 15:15:03,542 - console - INFO - Loaded 550 trading symbols
+2025-10-28 15:15:03,738 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v1/openOrders?timestamp=1761644703481&signature=fb611050e3f1a62a9440c5883cf880314c5c9ed0b53cd00eb09a3d1a2a0f8656 HTTP/1.1" 200 2
+2025-10-28 15:15:03,739 - console - INFO - Open orders: 0
+2025-10-28 15:15:03,919 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v2/positionRisk?timestamp=1761644703667&signature=8e5cd90076c2655d7f927dd7f799515e43e6f274f57ec6de927145a6b129a70c HTTP/1.1" 200 None
+2025-10-28 15:15:03,923 - console - INFO - Active positions: 1
+2025-10-28 15:15:04,118 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v1/ticker/price?symbol=BTCUSDT HTTP/1.1" 200 None
+2025-10-28 15:15:04,119 - console - INFO - BTCUSDT current price: 114430.4
+2025-10-28 15:15:04,355 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v1/ticker/price?symbol=BTCUSDT HTTP/1.1" 200 None
+2025-10-28 15:15:04,356 - console - INFO - BTCUSDT current price: 114430.4
+2025-10-28 15:15:04,524 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v1/ticker/price?symbol=BTCUSDT HTTP/1.1" 200 None
+2025-10-28 15:15:04,525 - console - INFO - BTCUSDT current price: 114430.4
+2025-10-28 15:15:05,029 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v1/ticker/price?symbol=BTCUSDT HTTP/1.1" 200 None
+2025-10-28 15:15:05,030 - console - INFO - BTCUSDT current price: 114430.4
+2025-10-28 15:15:05,190 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v1/ticker/price?symbol=BTCUSDT HTTP/1.1" 200 None
+2025-10-28 15:15:05,190 - console - INFO - BTCUSDT current price: 114430.4
+2025-10-28 15:17:55,728 - urllib3.connectionpool - DEBUG - https://testnet.binancefuture.com:443 "GET /fapi/v1/ticker/price?symbol=BTCUSDT HTTP/1.1" 200 None
+2025-10-28 15:17:55,729 - console - INFO - BTCUSDT current price: 114439.1

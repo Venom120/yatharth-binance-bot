@@ -57,6 +57,9 @@ Screenshots of the main application windows:
 **Positions**
 ![Positions](./assets/Positions.png)
 
+**TWAP Order Panel**
+![TWAP Order Panel](./assets/TWAP.png)
+
 ## 📦 Building the Executable (PyInstaller)
 
 This project includes configuration files to build a standalone executable using PyInstaller.
@@ -168,22 +171,27 @@ This will split 0.1 ETH purchase into 5 market orders over 10 minutes.
 6.  **Monitor logs** - Review `bot.log` regularly
 
 ## 📁 Project Structure
-```
-trading_bot/
-├── main.py                # Main GUI script (runs the customtkinter UI)
-├── console.py             # CLI (command-line interface) script
-├── req.txt                # Python dependencies
-├── .env-example           # Environment variable example
-├── .gitignore             # Git ignore file
+binancetradingbot/
+├── src/                   # Source code for the bot
+│   ├── main.py            # Main application entry point (GUI)
+│   ├── console.py         # Command-line interface for bot operations
+│   ├── limit_orders.py    # Logic for placing limit orders
+│   ├── market_orders.py   # Logic for placing market orders
+│   └── advanced/          # Advanced trading strategies
+│       ├── oco.py         # One-Cancels-Other (OCO) order logic
+│       └── twap.py        # Time-Weighted Average Price (TWAP) order logic
 ├── assets/                # Image assets for UI
 │   ├── Dashboard.png
 │   ├── Order.png
 │   └── Positions.png
-├── build.bat              # Build script (Windows)
-├── build.sh               # Build script (Linux/macOS)
+├── build.sh               # Linux/macOS build script
+├── build.bat              # Windows build script
+├── req.txt                # Python dependencies
+├── .env-example           # Environment variable example
+├── .gitignore             # Git ignore file
 ├── BinanceBot.spec        # PyInstaller spec file
-├── BinanceBot.exe         # (Optional) Compiled Windows executable
-├── bot.log        # Execution logs (auto-generated)
+├── bot.log                # Application logs
+└── README.md              # Project documentation
 └── README.md              # This file
 ```
 
