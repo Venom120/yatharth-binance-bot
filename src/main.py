@@ -177,11 +177,11 @@ class BinanceTradingApp(ctk.CTk):
         self.twap_order_frame.grid_columnconfigure(1, weight=1)
 
         # --- Refresh Button ---
-        refresh_button = ctk.CTkButton(self.manage_frame, text="Refresh Data", command=self.refresh_all_data)
+        refresh_button = ctk.CTkButton(self.twap_order_frame, text="Refresh Data", command=self.refresh_all_data)
         refresh_button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
         # --- Open Positions Column ---
-        positions_container = ctk.CTkFrame(self.manage_frame)
+        positions_container = ctk.CTkFrame(self.twap_order_frame)
         positions_container.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
         positions_container.grid_rowconfigure(1, weight=1)
         positions_container.grid_columnconfigure(0, weight=1)
@@ -193,7 +193,7 @@ class BinanceTradingApp(ctk.CTk):
         self.positions_list_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
         # --- Open Orders Column ---
-        orders_container = ctk.CTkFrame(self.manage_frame)
+        orders_container = ctk.CTkFrame(self.twap_order_frame)
         orders_container.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
         orders_container.grid_rowconfigure(1, weight=1)
         orders_container.grid_columnconfigure(0, weight=1)
