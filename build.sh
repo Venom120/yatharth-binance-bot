@@ -2,14 +2,14 @@
 echo "--- Binance Bot Linux Build Script ---"
 
 # Check for python3
-if ! command -v python3 &> /dev/null
+if ! command -v python &> /dev/null
 then
-    echo "Python 3 could not be found! Please install it."
+    echo "Python could not be found! Please install it."
     exit
 fi
 
 echo "Creating virtual environment in '.venv' folder..."
-python3 -m venv .venv
+python -m venv .venv
 
 echo "Activating virtual environment..."
 source .venv/bin/activate
@@ -24,10 +24,10 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Building the Linux executable (this may take a moment)..."
-pyinstaller --onefile --name "BinanceBot" \
+pyinstaller --onefile --name "BinanceBot" --copy-metadata customtkinter \
     --add-data ".venv/lib/python*/site-packages/dateparser/data:dateparser/data" \
     --add-data ".venv/lib/python*/site-packages/customtkinter:customtkinter" \
-    main.py
+    --hidden-import customtkinter --hidden-import dateparser src/main.py
 
 if [ $? -ne 0 ]; then
     echo "PyInstaller failed! See output above for errors."

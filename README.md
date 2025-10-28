@@ -165,7 +165,7 @@ This will split 0.1 ETH purchase into 5 market orders over 10 minutes.
 3.  **Enable IP restrictions** - Limit API access to specific IPs
 4.  **Use read-only keys** - For monitoring features
 5.  **Regular key rotation** - Change keys periodically
-6.  **Monitor logs** - Review `trading_bot.log` regularly
+6.  **Monitor logs** - Review `bot.log` regularly
 
 ## 📁 Project Structure
 ```
@@ -183,7 +183,7 @@ trading_bot/
 ├── build.sh               # Build script (Linux/macOS)
 ├── BinanceBot.spec        # PyInstaller spec file
 ├── BinanceBot.exe         # (Optional) Compiled Windows executable
-├── trading_bot.log        # Execution logs (auto-generated)
+├── bot.log        # Execution logs (auto-generated)
 └── README.md              # This file
 ```
 
@@ -213,7 +213,7 @@ trading_bot/
 
 All operations are logged to:
   - **Console**: Real-time feedback
-  - **File** (`trading_bot.log`): Permanent record
+  - **File** (`bot.log`): Permanent record
 
 Log entries include:
   - API requests with parameters
@@ -262,7 +262,7 @@ def custom_strategy(self, symbol):
 ## 🆘 Support
 
 For issues:
-1.  Check logs in `trading_bot.log` and `trading_bot_ui.log`
+1.  Check logs in `bot.log` and `trading_bot_ui.log`
 2.  Verify API credentials and permissions
 3.  Review Binance API documentation
 4.  Test with small quantities first

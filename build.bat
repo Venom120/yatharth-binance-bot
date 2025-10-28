@@ -29,7 +29,7 @@ ECHO "Building the .exe file (this may take a moment)..."
 pyinstaller --onefile --windowed --name "BinanceBot" ^
     --add-data ".venv\Lib\site-packages\dateparser\data;dateparser/data" ^
     --add-data ".venv\Lib\site-packages\customtkinter;customtkinter" ^
-    main.py
+    src/main.py
 
 IF %ERRORLEVEL% NEQ 0 (
     ECHO "PyInstaller failed! See output above for errors."
