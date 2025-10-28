@@ -168,20 +168,17 @@ class BinanceTradingApp(ctk.CTk):
         """Creates the page for managing open orders and positions."""
         self.manage_frame = ctk.CTkFrame(self.main_content_frame, corner_radius=0, fg_color="transparent")
         self.manage_frame.grid(row=0, column=0, sticky="nsew")
-
-    def create_twap_page(self):
-        self.twap_order_frame = ctk.CTkFrame(self.main_content_frame, corner_radius=0, fg_color="transparent")
-        self.twap_order_frame.grid(row=0, column=0, sticky="nsew")
-        self.twap_order_frame.grid_rowconfigure(1, weight=1)
-        self.twap_order_frame.grid_columnconfigure(0, weight=1)
-        self.twap_order_frame.grid_columnconfigure(1, weight=1)
+        # --- Start of content moved from create_twap_page ---
+        self.manage_frame.grid_rowconfigure(1, weight=1)
+        self.manage_frame.grid_columnconfigure(0, weight=1)
+        self.manage_frame.grid_columnconfigure(1, weight=1)
 
         # --- Refresh Button ---
-        refresh_button = ctk.CTkButton(self.twap_order_frame, text="Refresh Data", command=self.refresh_all_data)
+        refresh_button = ctk.CTkButton(self.manage_frame, text="Refresh Data", command=self.refresh_all_data)
         refresh_button.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
 
         # --- Open Positions Column ---
-        positions_container = ctk.CTkFrame(self.twap_order_frame)
+        positions_container = ctk.CTkFrame(self.manage_frame)
         positions_container.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
         positions_container.grid_rowconfigure(1, weight=1)
         positions_container.grid_columnconfigure(0, weight=1)
@@ -193,7 +190,7 @@ class BinanceTradingApp(ctk.CTk):
         self.positions_list_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
         # --- Open Orders Column ---
-        orders_container = ctk.CTkFrame(self.twap_order_frame)
+        orders_container = ctk.CTkFrame(self.manage_frame)
         orders_container.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
         orders_container.grid_rowconfigure(1, weight=1)
         orders_container.grid_columnconfigure(0, weight=1)
@@ -203,6 +200,58 @@ class BinanceTradingApp(ctk.CTk):
 
         self.open_orders_list_frame = ctk.CTkScrollableFrame(orders_container, label_text="Your Open Orders")
         self.open_orders_list_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
+        # --- End of moved content ---
+
+    def create_twap_page(self):
+        self.twap_order_frame = ctk.CTkFrame(self.main_content_frame, corner_radius=0, fg_color="transparent")
+        self.twap_order_frame.grid(row=0, column=0, sticky="nsew")
+        
+        # --- Start of content moved from create_twap_order_frame ---
+        # Configure grid to center the form
+        self.twap_order_frame.grid_columnconfigure(0, weight=1)
+        self.twap_order_frame.grid_rowconfigure(0, weight=1)
+        
+        # Create a frame to hold the content, so it doesn't stretch
+        frame = ctk.CTkFrame(self.twap_order_frame)
+        frame.grid(row=0, column=0, padx=20, pady=20, sticky="") # Not sticky, so it centers
+
+        frame.grid_columnconfigure(1, weight=1)
+
+        title = ctk.CTkLabel(frame, text="TWAP Order", font=ctk.CTkFont(size=16, weight="bold"))
+        title.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+
+        symbol_label = ctk.CTkLabel(frame, text="Symbol:")
+        symbol_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
+        self.twap_symbol_combobox = ctk.CTkComboBox(frame, values=self.symbol_list, command=self.update_twap_price)
+        self.twap_symbol_combobox.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
+
+        self.twap_price_label = ctk.CTkLabel(frame, text="Price: --", text_color="gray")
+        self.twap_price_label.grid(row=2, column=0, columnspan=2, padx=5, pady=(0, 5), sticky="w")
+
+        side_label = ctk.CTkLabel(frame, text="Side:")
+        side_label.grid(row=3, column=0, padx=5, pady=5, sticky="w")
+        self.twap_side_combobox = ctk.CTkComboBox(frame, values=["BUY", "SELL"])
+        self.twap_side_combobox.grid(row=3, column=1, padx=5, pady=5, sticky="ew")
+        self.twap_side_combobox.set("BUY")
+
+        quantity_label = ctk.CTkLabel(frame, text="Quantity:")
+        quantity_label.grid(row=4, column=0, padx=5, pady=5, sticky="w")
+        self.twap_quantity_entry = ctk.CTkEntry(frame, placeholder_text="0.01")
+        self.twap_quantity_entry.grid(row=4, column=1, padx=5, pady=5, sticky="ew")
+
+        duration_label = ctk.CTkLabel(frame, text="Duration (minutes):")
+        duration_label.grid(row=5, column=0, padx=5, pady=5, sticky="w")
+        self.twap_duration_entry = ctk.CTkEntry(frame, placeholder_text="60")
+        self.twap_duration_entry.grid(row=5, column=1, padx=5, pady=5, sticky="ew")
+
+        slices_label = ctk.CTkLabel(frame, text="Slices:")
+        slices_label.grid(row=6, column=0, padx=5, pady=5, sticky="w")
+        self.twap_slices_entry = ctk.CTkEntry(frame, placeholder_text="10")
+        self.twap_slices_entry.grid(row=6, column=1, padx=5, pady=5, sticky="ew")
+
+        button = ctk.CTkButton(frame, text="Place TWAP Order", command=self.place_twap_order_gui, fg_color="purple", hover_color="dark purple")
+        button.grid(row=7, column=0, columnspan=2, pady=10, padx=10)
+        # --- End of moved content ---
 
 
     # --- Page Navigation ---
@@ -220,6 +269,8 @@ class BinanceTradingApp(ctk.CTk):
     def show_twap_page(self):
         """Show the TWAP page."""
         self.twap_order_frame.tkraise()
+        # Update price on page show
+        self.update_twap_price(self.twap_symbol_combobox.get())
 
     def refresh_all_data(self):
         """Refresh both open orders and positions."""
@@ -292,45 +343,10 @@ class BinanceTradingApp(ctk.CTk):
         button.grid(row=6, column=0, columnspan=2, pady=10, padx=10)
         return frame
 
-    def create_twap_order_frame(self):
-        frame = ctk.CTkFrame(self.trade_frame)
-        frame.grid_columnconfigure(1, weight=1)
+    # This function is now deleted, its content was moved to create_twap_page
+    # def create_twap_order_frame(self):
+    #     ...
 
-        title = ctk.CTkLabel(frame, text="TWAP Order", font=ctk.CTkFont(size=16, weight="bold"))
-        title.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
-
-        symbol_label = ctk.CTkLabel(frame, text="Symbol:")
-        symbol_label.grid(row=1, column=0, padx=5, pady=5, sticky="w")
-        self.twap_symbol_combobox = ctk.CTkComboBox(frame, values=self.symbol_list, command=self.update_twap_price)
-        self.twap_symbol_combobox.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
-
-        self.twap_price_label = ctk.CTkLabel(frame, text="Price: --", text_color="gray")
-        self.twap_price_label.grid(row=2, column=0, columnspan=2, padx=5, pady=(0, 5), sticky="w")
-
-        side_label = ctk.CTkLabel(frame, text="Side:")
-        side_label.grid(row=3, column=0, padx=5, pady=5, sticky="w")
-        self.twap_side_combobox = ctk.CTkComboBox(frame, values=["BUY", "SELL"])
-        self.twap_side_combobox.grid(row=3, column=1, padx=5, pady=5, sticky="ew")
-        self.twap_side_combobox.set("BUY")
-
-        quantity_label = ctk.CTkLabel(frame, text="Quantity:")
-        quantity_label.grid(row=4, column=0, padx=5, pady=5, sticky="w")
-        self.twap_quantity_entry = ctk.CTkEntry(frame, placeholder_text="0.01")
-        self.twap_quantity_entry.grid(row=4, column=1, padx=5, pady=5, sticky="ew")
-
-        duration_label = ctk.CTkLabel(frame, text="Duration (minutes):")
-        duration_label.grid(row=5, column=0, padx=5, pady=5, sticky="w")
-        self.twap_duration_entry = ctk.CTkEntry(frame, placeholder_text="60")
-        self.twap_duration_entry.grid(row=5, column=1, padx=5, pady=5, sticky="ew")
-
-        slices_label = ctk.CTkLabel(frame, text="Slices:")
-        slices_label.grid(row=6, column=0, padx=5, pady=5, sticky="w")
-        self.twap_slices_entry = ctk.CTkEntry(frame, placeholder_text="10")
-        self.twap_slices_entry.grid(row=6, column=1, padx=5, pady=5, sticky="ew")
-
-        button = ctk.CTkButton(frame, text="Place TWAP Order", command=self.place_twap_order_gui, fg_color="purple", hover_color="dark purple")
-        button.grid(row=7, column=0, columnspan=2, pady=10, padx=10)
-        return frame
     def create_stop_limit_order_frame(self):
         frame = ctk.CTkFrame(self.trade_frame)
         frame.grid_columnconfigure(1, weight=1)
@@ -445,10 +461,12 @@ class BinanceTradingApp(ctk.CTk):
                     self.price_symbol_combobox,
                     self.market_symbol_combobox,
                     self.limit_symbol_combobox,
-                    self.stop_limit_symbol_combobox
+                    self.stop_limit_symbol_combobox,
+                    self.twap_symbol_combobox  # <-- Added this
                 ]
                 for cb in comboboxes:
-                    cb.configure(values=self.symbol_list)
+                    if cb: # Check if combobox exists
+                        cb.configure(values=self.symbol_list)
                 
                 # Set a default value
                 if "BTCUSDT" in self.symbol_list:
@@ -457,7 +475,8 @@ class BinanceTradingApp(ctk.CTk):
                     default_symbol = self.symbol_list[0] if self.symbol_list else ""
                 
                 for cb in comboboxes:
-                    cb.set(default_symbol)
+                    if cb: # Check if combobox exists
+                        cb.set(default_symbol)
 
                 if default_symbol:
                     # Use after to ensure widgets are drawn before fetching price
@@ -465,6 +484,7 @@ class BinanceTradingApp(ctk.CTk):
                     self.after(100, lambda: self.update_market_price(default_symbol))
                     self.after(100, lambda: self.update_limit_price(default_symbol))
                     self.after(100, lambda: self.update_stop_limit_price(default_symbol))
+                    self.after(100, lambda: self.update_twap_price(default_symbol)) # <-- Added this
 
 
             except Exception as e:
@@ -487,8 +507,9 @@ class BinanceTradingApp(ctk.CTk):
 
     def _fetch_and_set_price(self, symbol, label_widget):
         """Generic helper to fetch price and update a specific label."""
-        if not self.bot or not symbol or symbol == "Loading...":
-            label_widget.configure(text="Price: --", text_color="gray")
+        if not self.bot or not symbol or symbol == "Loading..." or not label_widget:
+            if label_widget:
+                label_widget.configure(text="Price: --", text_color="gray")
             return
         try:
             # Run in a separate thread to avoid freezing UI (optional but good practice)

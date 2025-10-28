@@ -1,16 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
-from PyInstaller.utils.hooks import copy_metadata
-
-datas = [('.venv/lib/python*/site-packages/dateparser/data', 'dateparser/data'), ('.venv/lib/python*/site-packages/customtkinter', 'customtkinter')]
-datas += copy_metadata('customtkinter')
 
 
 a = Analysis(
     ['src/main.py'],
     pathex=[],
     binaries=[],
-    datas=datas,
-    hiddenimports=['customtkinter', 'dateparser'],
+    datas=[('.venv/lib/python*/site-packages/dateparser/data', 'dateparser/data'), ('.venv/lib/python*/site-packages/customtkinter', 'customtkinter'), ('src', 'src'), ('assets', 'assets')],
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
